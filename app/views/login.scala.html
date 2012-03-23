@@ -1,0 +1,13 @@
+@(form: Form[Application.Login])
+
+@helper.form(routes.Application.authenticate) {
+	<p>
+                <input type="username" name="username" placeholder="Username" >
+            </p>
+            <p>
+                <input type="password" name="password" placeholder="Password">
+            </p>
+            <p>
+                <button type="submit">Login</button>
+            </p>
+}
