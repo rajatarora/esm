@@ -1,0 +1,51 @@
+/* LESS Variables */
+@fullwidth: 1240px;
+
+/* Extra Stylesheets */
+@import url('login.css');
+@import url('fonts.css');
+
+/* Header */
+body {
+	background-image: url('../img/body-bg.png');
+}
+
+#main-header {
+	height: 60px;
+	background-image: url('../img/header-bg.png');
+}
+
+#header-container {
+	width: @fullwidth;
+	margin: 0 auto;	
+}
+
+#logo {
+	margin-top: 13px;
+}
+
+/* Footer */
+footer {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	float: right;
+	padding: 2px;
+	background-color: #222;
+	color: #eee;
+	font-family: OpenSansCondensedLightItalic;
+}
+
+/* Clearfix */
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}

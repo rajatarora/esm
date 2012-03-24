@@ -1,13 +1,20 @@
 @(form: Form[Application.Login])
 
+@header()
+
 @helper.form(routes.Application.authenticate) {
-	<p>
-                <input type="username" name="username" placeholder="Username" >
-            </p>
-            <p>
-                <input type="password" name="password" placeholder="Password">
-            </p>
-            <p>
-                <button type="submit">Login</button>
-            </p>
+@if(flash.contains("loginError")) {
+	@flash.get("loginError")
 }
+
+<div id="login-form">
+
+	<div id="login-header"><h3>Please Login</h3></div>
+	<input id="login-text-field" type="text" name="username" placeholder="Username" >
+	<input id="login-text-field" type="password" name="password" placeholder="Password">
+	<button id="login-button" type="submit">Login</button>
+
+</div><!-- #login-form -->
+}
+
+@footer()

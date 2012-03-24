@@ -3,6 +3,7 @@ package controllers;
 import play.*;
 import play.mvc.*;
 import play.data.*;
+import models.*;
 
 import views.html.*;
 
@@ -30,12 +31,16 @@ public class Application extends Controller {
 				login.render(form(Login.class))
 			);
 		}
-		return ok("Logged in");
+		return ok("Logged in " + username);
 	}
 	
 	public static Result authenticate() {
 		Form<Login> loginForm = form(Login.class).bindFromRequest();
-		session("username",loginForm.get().username);
+		String username = loginForm.get().username;
+		String password = loginForm.get().password;
+		if(User.userExists(username,password))
+			session("username",username);
+		else flash("loginError","Invalid username or password");
 		return redirect(routes.Application.login());
 	}
 	

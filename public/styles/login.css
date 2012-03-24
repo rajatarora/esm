@@ -1,0 +1,39 @@
+#login-form {
+	width: 300px;
+	height: 190px;
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -95px;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	background-color: rgba(0,0,0,0.03);
+}
+
+#login-header {
+	width: 250px;
+	margin: 15px 0 10px 22px;
+	font-family: OpenSansCondensedBold;
+	font-size: 25px;
+}
+
+#login-text-field {
+	width: 250px;
+	height: 30px;
+	margin-left: 22px;
+	margin-bottom: 10px;
+	color: #000;
+	font-family: OpenSansCondensedLightItalic;
+	font-size: 18px;
+}
+
+#login-button {
+	float: right;
+	margin-right: 23px;
+	margin-bottom: 15px;	
+	border: 1px solid #999;
+	border-radius: 3px;
+	padding: 5px 7px;
+	font-family: OpenSansRegular;
+{

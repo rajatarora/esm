@@ -3,15 +3,14 @@
 # ~~~~
 
 # Home page
-GET		/							controllers.Application.login()
-GET		/student					controllers.StudentController.getAll()
+GET		/						controllers.Application.login()
+GET		/student				controllers.StudentController.getAll()
 
 # Authentication
+POST    /login					controllers.Application.authenticate()
+GET		/logout					controllers.Application.logout()
 
-POST    /login                              controllers.Application.authenticate()
-GET		/logout								controllers.Application.logout()
-
-GET		/dashboard							controllers.Application.dashboard()
+GET		/dashboard				controllers.Application.dashboard()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file			controllers.Assets.at(path="/public", file)

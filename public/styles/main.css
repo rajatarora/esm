@@ -1,57 +1,9 @@
+
 body {
 	background-image: url('../img/body-bg.png');
-	font-family: 'HelveticaNeue LT 27 UltLtCn', serif;
 }
 
-#main-container {
-	width: 1100px;
-	margin: 0 auto;
-}
-
-#masthead {
-	height: 148px;
+#main-header {
+	height: 60px;
 	background-image: url('../img/header-bg.png');
-	border-bottom: 5px solid #913420;
-}
-
-#logo {
-	margin-left: 40px;
-	margin-top: 35px;
-}
-
-#sidebar {
-	width: 250px;
-	height: 1000px;
-	background-image: url('../img/sidebar-bg.png');
-	float: left;
-}
-
-#content-container {
-	width: 850px;
-	height: 1000px;
-	background-image: url('../img/content-bg.png');
-	float: right;
-}
-
-#content {
-	padding: 20px;
-}
-
-h2 {
-	font-size: 3em;
-}
-
-td, th {
-	border: 1px solid black;
-	padding: 3px;
-	text-align: center;
-}
-
-th {
-	font-size: 1.1em;
-	font-weight: bold;
-}
-
-thead {
-	background-image: url('../img/thead-bg.png');
 }
