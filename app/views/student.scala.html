@@ -1,43 +1,86 @@
-@(students: List[Student])
+@(timetable: List[TimeSlot], teachers: List[Teacher], assignments: List[TeacherAssignment], rooms: List[Room])
 
-@import helper._
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>List of Students</title>
-		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("styles/reset.css")" />
-		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("styles/main.css")" />
-	</head>
-	<body>
-		<div id="main-container">
-			<header id="masthead">
-				<img id="logo" src="@routes.Assets.at("img/logo.png")" />
-			</header>
-			<div id="sidebar">
-				&nbsp;
-			</div>
-			<div id="content-container">
-				<div id="content">
-					<h2>List of Students</h2>
-					<table border=1 cellpadding=1>
-						<thead>
-							<th>Serial</th>
-							<th>Name</th>
-							<th>DOB</th>
-							<th>Course ID</th>
-						</thead>
-						@for(s <- students) {
-							<tr>
-								<td>@s.id</td>
-								<td>@s.name</td>
-								<td>@s.dateOfBirth</td>
-								<td>@s.courseId</td>
-							</tr>
-						}
-					</table>
-				</div>
-			</div>
+
+@header()
+
+<div id="timetable">
+	@for(t <- timetable) {
+		<div class="timeslot day-@t.day start-@t.start end-@t.end room-@t.room.id paper-@t.paper.id">
+			<span class="paper-id">@t.paper.id</span>
+			<span class="room-name">&nbsp;</span>
 		</div>
-	</body>
-</html>
+	}
+</div>
+
+<script type="text/javascript">
+
+/* Wrap a row div around each day */
+for(i=0; i<5; i++) {
+	$(".day-" + i).wrapAll('<div class="row clearfix"></div>');
+}
+
+/* Calculate width based on duration */
+for(i=0; i<8; i++) {
+	for(j=1; j<=8; j++) {
+		$(".start-"+i+".end-"+j).addClass("width-"+(j-i));
+	}
+}
+
+/* Display Teacher Names */
+function getName(paperIndex,max) {
+	teacherId = assignment[paperIndex][0];
+	teacherName = '0';
+	for(s=0; s<max; s++)
+		if(teacher[s][0] == teacherId)
+			teacherName = teacher[s][1];
+	return teacherName;
+}
+
+var teacher = new Array(10);
+var assignment = new Array(10);
+for(i=0; i<10; i++) teacher[i] = new Array(2);
+for(i=0; i<10; i++) assignment[i] = new Array(2);
+
+var k = 0;
+
+@for(tc <- teachers) {
+	teacher[k][0] = @tc.id;
+	teacher[k][1] = "@tc.name";
+	k++;
+}
+
+k = 0;
+
+@for(ta <- assignments) {
+	assignment[k][0] = @ta.teacher.id;
+	assignment[k][1] = @ta.paper.id;
+	k++;
+}
+
+for(i=0; i<k; i++) {
+	$(".paper-id:contains('" + assignment[i][1] + "')").after('<span class="teacher-name">' + getName(i,k) + '</span>');
+}
+
+/* Display Room Names */
+
+/* Get the list of rooms */
+var room = new Array(10);
+for(i=0; i<10; i++) room[i] = new Array(2);
+k = 0;
+@for(rm <- rooms) {
+	room[k][0] = @rm.id;
+	room[k][1] = "@rm.name";
+	k++;
+}
+
+/* Display room name for each room ID */
+for(i=0; i<k; i++) {
+	$(".room-" + room[i][0]).children(".room-name").text(room[i][1]);
+}
+
+/* Remove all information for free periods */
+$(".room-3").children().css("display","none");
+
+</script>
+@footer()

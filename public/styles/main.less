@@ -4,6 +4,8 @@
 /* Extra Stylesheets */
 @import url('login.css');
 @import url('fonts.css');
+@import url('gradients.css');
+@import url('timetable.css');
 
 /* Header */
 body {
@@ -24,11 +26,16 @@ body {
 	margin-top: 13px;
 }
 
+#main-container {
+	width: @fullwidth;
+	margin: 0 auto;
+}
+
 /* Footer */
 footer {
 	position: absolute;
-	bottom: 5px;
-	right: 5px;
+	bottom: 0px;
+	right: 0px;
 	float: right;
 	padding: 2px;
 	background-color: #e9e9e9;
@@ -47,5 +54,5 @@ footer {
 }
  
 .clearfix {
-	display: inline-block;
+	display: block;
 }

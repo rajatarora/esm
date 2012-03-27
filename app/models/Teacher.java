@@ -53,6 +53,13 @@ public class Teacher extends Model {
 	@ManyToMany
 	@Required
 	public List<Subject> subjects;
+
+	public static Teacher getById(String teacherId) {
+		return find
+				.where()
+				.eq("id",teacherId)
+				.findUnique();
+	}
 	
 	public static Finder<String,Teacher> find = new Finder(String.class,Teacher.class);
 }

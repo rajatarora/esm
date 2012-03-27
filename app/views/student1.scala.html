@@ -1,0 +1,43 @@
+@(students: List[Student])
+
+@import helper._
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>List of Students</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("styles/reset.css")" />
+		<link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("styles/main.css")" />
+	</head>
+	<body>
+		<div id="main-container">
+			<header id="masthead">
+				<img id="logo" src="@routes.Assets.at("img/logo.png")" />
+			</header>
+			<div id="sidebar">
+				&nbsp;
+			</div>
+			<div id="content-container">
+				<div id="content">
+					<h2>List of Students</h2>
+					<table border=1 cellpadding=1>
+						<thead>
+							<th>Serial</th>
+							<th>Name</th>
+							<th>DOB</th>
+							<th>Course ID</th>
+						</thead>
+						@for(s <- students) {
+							<tr>
+								<td>@s.id</td>
+								<td>@s.name</td>
+								<td>@s.dateOfBirth</td>
+								<td>@s.courseId</td>
+							</tr>
+						}
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -3,18 +3,29 @@
 @header()
 
 @helper.form(routes.Application.authenticate) {
-@if(flash.contains("loginError")) {
-	@flash.get("loginError")
-}
 
-<div id="login-form">
+<div id="login-container" class="clearfix">
+	<div id="login-form" class="clearfix">
 
-	<div id="login-header"><h3>Please Login</h3></div>
-	<input id="login-text-field" type="text" name="username" placeholder="Username" >
-	<input id="login-text-field" type="password" name="password" placeholder="Password">
-	<button id="login-button" type="submit">Login</button>
+		<div id="login-header"><h3>Please Login</h3></div>
+		<input id="login-text-field" type="text" name="username" placeholder="Username" >
+		<input id="login-text-field" type="password" name="password" placeholder="Password">
+		<button id="login-button" class="black-gradient" type="submit">Login</button>
 
-</div><!-- #login-form -->
-}
+	</div><!-- #login-form -->
+	}
+
+	@if(flash.contains("loginError")) {
+	<div id="login-error">
+		@flash.get("loginError")
+	</div><!-- #login-error -->
+	}
+
+	@if(flash.contains("logoutNotice")) {
+	<div id="logout-notice">
+		@flash.get("logoutNotice")
+	</div><!-- #logout-notice -->
+	}
+</div><!-- #login-container -->
 
 @footer()

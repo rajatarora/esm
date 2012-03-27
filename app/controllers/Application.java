@@ -15,37 +15,49 @@ public class Application extends Controller {
 	}
 	
 	public static Result login() {
-		String username = session("username");
-		if(username == null) {
+		if(!loggedIn()) {
 			return ok(
 				login.render(form(Login.class))
 			);
 		}
-		return redirect(routes.Application.dashboard());
+		else {
+			String username = session("username");
+			Enums.userRole role = User.getRole(username);
+			return ok("Logged in " + username + " role = " + role);
+		}
+		//return redirect(routes.Application.dashboard());
 	}
 	
 	public static Result dashboard() {
-	String username = session("username");
-		if(username == null) {
+		if(!loggedIn()) {
 			return ok(
 				login.render(form(Login.class))
 			);
 		}
-		return ok("Logged in " + username);
+		return ok("logged in");
 	}
 	
 	public static Result authenticate() {
 		Form<Login> loginForm = form(Login.class).bindFromRequest();
 		String username = loginForm.get().username;
 		String password = loginForm.get().password;
-		if(User.userExists(username,password))
+		if(User.exists(username,password))
 			session("username",username);
 		else flash("loginError","Invalid username or password");
 		return redirect(routes.Application.login());
 	}
 	
 	public static Result logout() {
-		session().clear();
+		if(loggedIn()) {
+			session().clear();
+			flash("logoutNotice","You have been logged out");
+		}
 		return redirect(routes.Application.login());
+	}
+
+	public static boolean loggedIn() {
+		String username = session("username");
+		if(username == null) return false;
+		return true;
 	}
 }

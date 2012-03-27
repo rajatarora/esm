@@ -12,13 +12,6 @@ create table attendance (
   constraint pk_attendance primary key (id))
 ;
 
-create table class (
-  id                        varchar(255) not null,
-  course_id                 varchar(255),
-  semester                  integer not null,
-  constraint pk_class primary key (id))
-;
-
 create table course (
   id                        varchar(255) not null,
   name                      varchar(255) not null,
@@ -28,11 +21,19 @@ create table course (
   constraint pk_course primary key (id))
 ;
 
+create table eclass (
+  id                        varchar(255) not null,
+  course_id                 varchar(255),
+  semester                  integer not null,
+  year                      integer not null,
+  constraint pk_eclass primary key (id))
+;
+
 create table exam (
   id                        varchar(255) not null,
   paper_id                  varchar(255),
   e_type                    integer not null,
-  c_id                      varchar(255),
+  c                         varchar(255) not null,
   constraint ck_exam_e_type check (e_type in (0,1,2,3)),
   constraint pk_exam primary key (id))
 ;
@@ -54,7 +55,7 @@ create table marks (
 create table paper (
   id                        varchar(255) not null,
   subject_id                varchar(255),
-  c_id                      varchar(255),
+  c                         varchar(255) not null,
   constraint pk_paper primary key (id))
 ;
 
@@ -75,7 +76,6 @@ create table student (
   library_no                varchar(255) not null,
   institute_id              varchar(255),
   year                      integer not null,
-  in_class_id               varchar(255),
   user_id                   varchar(255),
   constraint pk_student primary key (id))
 ;
@@ -101,6 +101,14 @@ create table teacher (
   constraint pk_teacher primary key (id))
 ;
 
+create table teacher_assignment (
+  id                        varchar(255) not null,
+  ec_id                     varchar(255),
+  paper_id                  varchar(255),
+  teacher_id                varchar(255),
+  constraint pk_teacher_assignment primary key (id))
+;
+
 create table time_slot (
   id                        bigint auto_increment not null,
   c_id                      varchar(255),
@@ -109,9 +117,6 @@ create table time_slot (
   start                     integer not null,
   end                       integer not null,
   room_id                   bigint,
-  constraint ck_time_slot_day check (day in (0,1,2,3,4,5,6)),
-  constraint ck_time_slot_start check (start in (0,1,2,3,4,5,6,7,8)),
-  constraint ck_time_slot_end check (end in (0,1,2,3,4,5,6,7,8)),
   constraint pk_time_slot primary key (id))
 ;
 
@@ -124,6 +129,12 @@ create table user (
 ;
 
 
+create table student_eclass (
+  student_id                     varchar(255) not null,
+  eclass_id                      varchar(255) not null,
+  constraint pk_student_eclass primary key (student_id, eclass_id))
+;
+
 create table teacher_subject (
   teacher_id                     varchar(255) not null,
   subject_id                     varchar(255) not null,
@@ -133,33 +144,33 @@ alter table attendance add constraint fk_attendance_student_1 foreign key (stude
 create index ix_attendance_student_1 on attendance (student_id);
 alter table attendance add constraint fk_attendance_timeSlot_2 foreign key (time_slot_id) references time_slot (id) on delete restrict on update restrict;
 create index ix_attendance_timeSlot_2 on attendance (time_slot_id);
-alter table class add constraint fk_class_course_3 foreign key (course_id) references course (id) on delete restrict on update restrict;
-create index ix_class_course_3 on class (course_id);
-alter table course add constraint fk_course_institute_4 foreign key (institute_id) references institute (id) on delete restrict on update restrict;
-create index ix_course_institute_4 on course (institute_id);
+alter table course add constraint fk_course_institute_3 foreign key (institute_id) references institute (id) on delete restrict on update restrict;
+create index ix_course_institute_3 on course (institute_id);
+alter table eclass add constraint fk_eclass_course_4 foreign key (course_id) references course (id) on delete restrict on update restrict;
+create index ix_eclass_course_4 on eclass (course_id);
 alter table exam add constraint fk_exam_paper_5 foreign key (paper_id) references paper (id) on delete restrict on update restrict;
 create index ix_exam_paper_5 on exam (paper_id);
-alter table exam add constraint fk_exam_c_6 foreign key (c_id) references class (id) on delete restrict on update restrict;
-create index ix_exam_c_6 on exam (c_id);
-alter table marks add constraint fk_marks_exam_7 foreign key (exam_id) references exam (id) on delete restrict on update restrict;
-create index ix_marks_exam_7 on marks (exam_id);
-alter table marks add constraint fk_marks_student_8 foreign key (student_id) references student (id) on delete restrict on update restrict;
-create index ix_marks_student_8 on marks (student_id);
-alter table paper add constraint fk_paper_subject_9 foreign key (subject_id) references subject (id) on delete restrict on update restrict;
-create index ix_paper_subject_9 on paper (subject_id);
-alter table paper add constraint fk_paper_c_10 foreign key (c_id) references class (id) on delete restrict on update restrict;
-create index ix_paper_c_10 on paper (c_id);
-alter table student add constraint fk_student_institute_11 foreign key (institute_id) references institute (id) on delete restrict on update restrict;
-create index ix_student_institute_11 on student (institute_id);
-alter table student add constraint fk_student_inClass_12 foreign key (in_class_id) references class (id) on delete restrict on update restrict;
-create index ix_student_inClass_12 on student (in_class_id);
-alter table student add constraint fk_student_user_13 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_student_user_13 on student (user_id);
-alter table teacher add constraint fk_teacher_institute_14 foreign key (institute_id) references institute (id) on delete restrict on update restrict;
-create index ix_teacher_institute_14 on teacher (institute_id);
-alter table teacher add constraint fk_teacher_user_15 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_teacher_user_15 on teacher (user_id);
-alter table time_slot add constraint fk_time_slot_c_16 foreign key (c_id) references class (id) on delete restrict on update restrict;
+alter table marks add constraint fk_marks_exam_6 foreign key (exam_id) references exam (id) on delete restrict on update restrict;
+create index ix_marks_exam_6 on marks (exam_id);
+alter table marks add constraint fk_marks_student_7 foreign key (student_id) references student (id) on delete restrict on update restrict;
+create index ix_marks_student_7 on marks (student_id);
+alter table paper add constraint fk_paper_subject_8 foreign key (subject_id) references subject (id) on delete restrict on update restrict;
+create index ix_paper_subject_8 on paper (subject_id);
+alter table student add constraint fk_student_institute_9 foreign key (institute_id) references institute (id) on delete restrict on update restrict;
+create index ix_student_institute_9 on student (institute_id);
+alter table student add constraint fk_student_user_10 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_student_user_10 on student (user_id);
+alter table teacher add constraint fk_teacher_institute_11 foreign key (institute_id) references institute (id) on delete restrict on update restrict;
+create index ix_teacher_institute_11 on teacher (institute_id);
+alter table teacher add constraint fk_teacher_user_12 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_teacher_user_12 on teacher (user_id);
+alter table teacher_assignment add constraint fk_teacher_assignment_ec_13 foreign key (ec_id) references eclass (id) on delete restrict on update restrict;
+create index ix_teacher_assignment_ec_13 on teacher_assignment (ec_id);
+alter table teacher_assignment add constraint fk_teacher_assignment_paper_14 foreign key (paper_id) references paper (id) on delete restrict on update restrict;
+create index ix_teacher_assignment_paper_14 on teacher_assignment (paper_id);
+alter table teacher_assignment add constraint fk_teacher_assignment_teacher_15 foreign key (teacher_id) references teacher (id) on delete restrict on update restrict;
+create index ix_teacher_assignment_teacher_15 on teacher_assignment (teacher_id);
+alter table time_slot add constraint fk_time_slot_c_16 foreign key (c_id) references eclass (id) on delete restrict on update restrict;
 create index ix_time_slot_c_16 on time_slot (c_id);
 alter table time_slot add constraint fk_time_slot_paper_17 foreign key (paper_id) references paper (id) on delete restrict on update restrict;
 create index ix_time_slot_paper_17 on time_slot (paper_id);
@@ -167,6 +178,10 @@ alter table time_slot add constraint fk_time_slot_room_18 foreign key (room_id) 
 create index ix_time_slot_room_18 on time_slot (room_id);
 
 
+
+alter table student_eclass add constraint fk_student_eclass_student_01 foreign key (student_id) references student (id) on delete restrict on update restrict;
+
+alter table student_eclass add constraint fk_student_eclass_eclass_02 foreign key (eclass_id) references eclass (id) on delete restrict on update restrict;
 
 alter table teacher_subject add constraint fk_teacher_subject_teacher_01 foreign key (teacher_id) references teacher (id) on delete restrict on update restrict;
 
@@ -178,9 +193,9 @@ SET FOREIGN_KEY_CHECKS=0;
 
 drop table attendance;
 
-drop table class;
-
 drop table course;
+
+drop table eclass;
 
 drop table exam;
 
@@ -194,11 +209,15 @@ drop table room;
 
 drop table student;
 
+drop table student_eclass;
+
 drop table subject;
 
 drop table teacher;
 
 drop table teacher_subject;
+
+drop table teacher_assignment;
 
 drop table time_slot;
 

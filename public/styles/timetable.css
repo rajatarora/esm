@@ -1,0 +1,51 @@
+#timetable {
+	margin-top: 20px;
+	width: 900px;
+}
+.row {
+	width: 900px;
+}
+
+.timeslot {
+	display: block;
+	width: 80px;
+	height: 85px;
+	margin-right: 2px;
+	float: left;
+	background-color: rgba(228,201,78,1);
+	margin-bottom: 2px;
+}
+
+.width-2 { width: 162px; }
+.width-3 { width: 244px; }
+
+.room-3 { background-color: rgba(155,196,146,1); }
+
+.highlight { background-color: yellow; }
+
+.paper-id {
+	font-family: OpenSansExtrabold;
+	font-size: 25px;
+	text-align: center;
+	width: 75px;
+	margin: 3px auto;
+	display: block;
+}
+
+.teacher-name {
+	font-family: OpenSansCondensedLightItalic;
+	font-size: 14px;
+	text-align: center;
+	width: 75px;
+	margin: 0 auto;
+	display: block;
+}
+
+.room-name {
+	font-family: OpenSansRegular;
+	font-size: 14px;
+	text-align: center;
+	width: 75px;
+	margin: 2px auto;
+	display: block;
+}

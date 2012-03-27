@@ -45,8 +45,8 @@ public class Student extends Model {
 	public int Year;
 	
 	@Column(nullable=false)
-	@ManyToOne
-	public Class inClass;
+	@ManyToMany
+	public List<EClass> classes;
 	
 	@Column(nullable=false)
 	@OneToOne
@@ -54,6 +54,24 @@ public class Student extends Model {
 	
 	public static List<Student> all() {
 		return find.all();
+	}
+
+	public static String getIdByUsername(String username) {
+		Student s = find
+				.where()
+				.eq("user",username)
+				.findUnique();
+		return s.id;
+	}
+
+	public static List<EClass> getClassesByUsername(String username) {
+		String query = "FIND student WHERE user_id = :id";
+		Student s = find
+				.setQuery(query)
+				.setParameter("id",username)
+				.findUnique();
+		List<EClass> temp = s.classes;
+		return temp;
 	}
 	
 	public static Finder<String,Student> find = new Finder(String.class,Student.class);

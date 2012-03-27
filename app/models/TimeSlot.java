@@ -16,11 +16,11 @@ public class TimeSlot extends Model {
 	@Column(nullable=false)
 	@ManyToOne
 	@Required
-	public Class c;
+	public EClass c;
 	
 	@Column(nullable=false)
 	@Required
-	public Enums.dayOfWeek day;
+	public int day;
 	
 	@Column(nullable=false)
 	@ManyToOne
@@ -29,16 +29,27 @@ public class TimeSlot extends Model {
 	
 	@Column(nullable=false)
 	@Required
-	public Enums.timeSlot start;
+	public int start;
 	
 	@Column(nullable=false)
 	@Required
-	public Enums.timeSlot end;
+	public int end;
 	
 	@Column(nullable=false)
 	@ManyToOne
 	@Required
 	public Room room;
+
+	
+	public static List<TimeSlot> getTimeTable(String classId) {
+		String query = "FIND TimeSlot WHERE c_id = :id";
+		List<TimeSlot> timetable = find
+								.setQuery(query)
+								.setParameter("id",classId)
+								.findList();
+		return timetable;
+	}
+	
 	
 	public static Finder<Long,TimeSlot> find = new Finder(Long.class,TimeSlot.class);
 }
